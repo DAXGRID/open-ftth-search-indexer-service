@@ -22,27 +22,28 @@ namespace openftth_search_indexer_service.Controllers
             _client = client;
             _logger = logger;
         }
-        [HttpGet("{nodeText}/{addressText}")]
-        public async Task<ActionResult<SearchResult>> Get(string nodeText, string addressText)
+        [HttpGet("{nodeText}/{addressText}/{numOfResults}")]
+        public async Task<ActionResult<SearchResult>> Get(string nodeText, string addressText, string numOfResults)
         {
 
             var results = new SearchResult
             {
-                nodes = SearchNodes(nodeText).Result,
-                addresses = SearchAddress(addressText).Result
+                nodes = SearchNodes(nodeText,numOfResults).Result,
+                addresses = SearchAddress(addressText,numOfResults).Result
             };
 
             return results;
 
         }
 
-        private async Task<List<RouteNode>> SearchNodes(string text)
+        private async Task<List<RouteNode>> SearchNodes(string text, string numOfResults)
         {
             List<RouteNode> nodes = new List<RouteNode>();
             var query = new SearchParameters
             {
                 Text = text,
-                QueryBy = "name"
+                QueryBy = "name",
+                PerPage = numOfResults
             };
 
             var nodeResult = await _client.Search<RouteNode>("RouteNodes", query);
@@ -59,13 +60,14 @@ namespace openftth_search_indexer_service.Controllers
             return nodes;
         }
 
-        private async Task<List<Address>> SearchAddress(string text)
+        private async Task<List<Address>> SearchAddress(string text,string numOfResults)
         {
             List<Address> addresses = new List<Address>();
             var adressQuery = new SearchParameters
             {
                 Text = text,
-                QueryBy = "accessAddressDescription"
+                QueryBy = "accessAddressDescription",
+                PerPage = numOfResults
             };
 
             var addressResult = await _client.Search<Address>("Addresses", adressQuery);
