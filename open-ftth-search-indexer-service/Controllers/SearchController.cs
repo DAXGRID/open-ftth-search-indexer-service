@@ -22,16 +22,16 @@ namespace openftth_search_indexer_service.Controllers
             _client = client;
             _logger = logger;
         }
-        [HttpGet("{nodeText}/{addressText}/{numOfResults}")]
-        public async Task<ActionResult<SearchResult>> Get(string nodeText, string addressText, string numOfResults)
+        [HttpGet("{text}/{numOfResults}")]
+        public async Task<ActionResult<SearchResult>> Get(string text, string numOfResults)
         {
 
             var results = new SearchResult
             {
-                nodes = SearchNodes(nodeText,numOfResults).Result,
-                addresses = SearchAddress(addressText,numOfResults).Result
+                nodes = SearchNodes(text,numOfResults).Result,
+                addresses = SearchAddress(text,numOfResults).Result
             };
-
+            
             return results;
 
         }
