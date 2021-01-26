@@ -18,7 +18,7 @@ namespace openftth_search_indexer_service.Controllers
         {
             _client = client;
         }
-        [HttpGet("{field}/{accessAddressDescription}")]
+        [HttpGet("{field}/{text}")]
         public async Task<ActionResult<List<Address>>> Get(string accessAddressDescription,string field)
         {
             List<Address> addresses = new List<Address>();

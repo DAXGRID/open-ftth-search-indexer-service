@@ -18,7 +18,7 @@ namespace openftth_search_indexer_service.Controllers
         {
             _client = client;
         }
-        [HttpGet("{field}/{name}")]
+        [HttpGet("{field}/{text}")]
         public async Task<ActionResult<List<RouteNode>>> Get(string name,string field)
         {
             RouteNode node = new RouteNode();
