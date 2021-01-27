@@ -31,7 +31,7 @@ namespace openftth_search_indexer_service.Controllers
                 nodes = SearchNodes(text,numOfResults).Result,
                 addresses = SearchAddress(text,numOfResults).Result
             };
-            
+
             return results;
 
         }
@@ -43,7 +43,9 @@ namespace openftth_search_indexer_service.Controllers
             {
                 Text = text,
                 QueryBy = "name",
-                PerPage = numOfResults
+                PerPage = numOfResults,
+                Prefix = "false"
+
             };
 
             var nodeResult = await _client.Search<RouteNode>("RouteNodes", query);
@@ -56,7 +58,7 @@ namespace openftth_search_indexer_service.Controllers
                     incrementalId = res.Document.incrementalId
                 });
             }
-
+            _logger.LogInformation(nodeResult.FacetCounts.Count.ToString());
             return nodes;
         }
 
