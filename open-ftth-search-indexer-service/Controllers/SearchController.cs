@@ -36,6 +36,37 @@ namespace openftth_search_indexer_service.Controllers
 
         }
 
+        [HttpGet("{text}")]
+        public async Task<ActionResult<List<String>>> GetFacet(string text)
+        {
+            List<RouteNode> nodes = new List<RouteNode>();
+            List<string> textList = new List<string>();
+            var query = new SearchParameters
+            {
+                Text = text,
+                QueryBy = "name",
+                PerPage = "20",
+                TypoTokensThreshold = "0",
+                NumberOfTypos = "0",
+                DropTokensThreshold = "0"
+                
+
+            };
+
+            string d = "";
+
+            var nodeResult = await _client.Search<RouteNode>("RouteNodes", query);
+             foreach (var res in nodeResult.Hits)
+             {
+               foreach(var h in res.Highlights)
+               {
+                   textList.Add(h.Snippet);
+               }
+             }
+
+             return textList;
+        }
+
         private async Task<List<RouteNode>> SearchNodes(string text, string numOfResults)
         {
             List<RouteNode> nodes = new List<RouteNode>();
@@ -44,8 +75,8 @@ namespace openftth_search_indexer_service.Controllers
                 Text = text,
                 QueryBy = "name",
                 PerPage = numOfResults,
-                Prefix = "false"
-
+                TypoTokensThreshold = "0",
+                NumberOfTypos = "0"
             };
 
             var nodeResult = await _client.Search<RouteNode>("RouteNodes", query);
