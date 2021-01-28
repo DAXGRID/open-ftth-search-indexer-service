@@ -36,7 +36,6 @@ namespace openftth_search_indexer_service.Controllers
 
         }
 
-
         private async Task<List<RouteNode>> SearchNodes(string text, string numOfResults)
         {
             List<RouteNode> nodes = new List<RouteNode>();
@@ -56,7 +55,8 @@ namespace openftth_search_indexer_service.Controllers
                 {
                     id = res.Document.id,
                     name = res.Document.name,
-                    incrementalId = res.Document.incrementalId
+                    incrementalId = res.Document.incrementalId,
+                    coordinates = res.Document.coordinates
                 });
             }
             _logger.LogInformation(nodeResult.FacetCounts.Count.ToString());
