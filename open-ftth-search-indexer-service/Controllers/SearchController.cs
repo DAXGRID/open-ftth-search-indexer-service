@@ -22,24 +22,12 @@ namespace openftth_search_indexer_service.Controllers
             _client = client;
             _logger = logger;
         }
+
         [HttpGet("{text}/{numOfResults}")]
-        public async Task<ActionResult<SearchResult>> Get(string text, string numOfResults)
+        public async Task<ActionResult<List<SearchResults>>> GetAll(string text, string numOfResults)
         {
-
-            var results = new SearchResult
-            {
-                nodes = SearchNodes(text,numOfResults).Result,
-                addresses = SearchAddress(text,numOfResults).Result
-            };
-
-            return results;
-
-        }
-
-        private async Task<List<RouteNode>> SearchNodes(string text, string numOfResults)
-        {
-            List<RouteNode> nodes = new List<RouteNode>();
-            var query = new SearchParameters
+            var results = new List<SearchResults>();
+            var nodesQuery = new SearchParameters
             {
                 Text = text,
                 QueryBy = "name",
@@ -48,50 +36,44 @@ namespace openftth_search_indexer_service.Controllers
                 NumberOfTypos = "0"
             };
 
-            var nodeResult = await _client.Search<RouteNode>("RouteNodes", query);
+            var nodeResult = await _client.Search<RouteNode>("RouteNodes", nodesQuery);
+
             foreach (var res in nodeResult.Hits)
             {
-                nodes.Add(new RouteNode
+                results.Add(new SearchResults
                 {
                     id = res.Document.id,
                     name = res.Document.name,
-                    incrementalId = res.Document.incrementalId,
+                    type = "RouteNodes",
                     coordinates = res.Document.coordinates
                 });
             }
-            _logger.LogInformation(nodeResult.FacetCounts.Count.ToString());
-            return nodes;
-        }
 
-        private async Task<List<Address>> SearchAddress(string text,string numOfResults)
-        {
-            List<Address> addresses = new List<Address>();
             var adressQuery = new SearchParameters
             {
                 Text = text,
-                QueryBy = "accessAddressDescription",
+                QueryBy = "unitAddressDescription",
                 PerPage = numOfResults
             };
 
             var addressResult = await _client.Search<Address>("Addresses", adressQuery);
-            foreach (var res in addressResult.Hits)
+
+            foreach(var res in addressResult.Hits)
             {
-                addresses.Add(new Address
+                results.Add(new SearchResults
                 {
-                    id_lokalId = res.Document.id_lokalId,
-                    door = res.Document.door,
-                    floor = res.Document.floor,
-                    unitAddressDescription = res.Document.unitAddressDescription,
-                    houseNumberId = res.Document.houseNumberId,
-                    status = res.Document.status,
-                    houseNumberDirection = res.Document.houseNumberDirection,
-                    houseNumberText = res.Document.houseNumberText,
-                    position = res.Document.position,
-                    accessAddressDescription = res.Document.accessAddressDescription
+                    id = Guid.Parse(res.Document.id_lokalId),
+                    name = res.Document.unitAddressDescription,
+                    type = "Addresses",
+                    coordinates = res.Document.position
                 });
             }
 
-            return addresses;
+
+            return results;
+
+
         }
+
     }
 }
