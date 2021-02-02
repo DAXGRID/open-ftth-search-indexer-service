@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "open-ftth-search-indexer-service", "open-ftth-search-indexer-service\open-ftth-search-indexer-service.csproj", "{C4DF76E2-99A2-421F-8F6E-DF5CF5B19383}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "open-ftth-search-indexer-service", "src\open-ftth-search-indexer-service.csproj", "{C4DF76E2-99A2-421F-8F6E-DF5CF5B19383}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

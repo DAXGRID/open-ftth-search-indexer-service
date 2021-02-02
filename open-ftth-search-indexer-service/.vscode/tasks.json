@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/open-ftth-search-indexer-service/open-ftth-search-indexer-service.csproj",
+                "${workspaceFolder}/src/open-ftth-search-indexer-service.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/open-ftth-search-indexer-service/open-ftth-search-indexer-service.csproj",
+                "${workspaceFolder}/src/open-ftth-search-indexer-service.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/open-ftth-search-indexer-service/open-ftth-search-indexer-service.csproj",
+                "${workspaceFolder}/src/open-ftth-search-indexer-service.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
